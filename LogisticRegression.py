@@ -31,12 +31,17 @@ cmdargs = str(sys.argv)
 inputDir = str(sys.argv[1])
 outputDir = str(sys.argv[2])
 modelSelection = str(sys.argv[3])
+trainingPercent = int(sys.argv[4])
+testPercent = int(100 - trainingPercent)
 
+
+print '\nTraining Data Split Percentage: ', trainingPercent
+print 'Test Data split Percentage: ', testData,
 # Load the data set into a Spark RDD
 sc = SparkContext(appName="LogisticRegression")
 data = sc.textFile(inputDir)
 
-print data.count()
+print 'Data count: ', data.count(),'\n'
 
 def line_parser(line):
     tokens = line.split(',')
@@ -48,7 +53,7 @@ def line_parser(line):
 parsedData = data.map(line_parser)
 
 # Split the data into training and test (we're missing the validation set)
-trainingData, testData = parsedData.randomSplit([0.6, 0.4], seed = 11L)
+trainingData, testData = parsedData.randomSplit([trainingPercent, testPercent], seed = 11L)
 
 
 # Train two logistic regression models with two different optimizers (LBFGS and SGD).
