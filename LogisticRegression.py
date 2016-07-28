@@ -12,8 +12,6 @@
 
 
 
-
-
 # First import packages and classes that we will need throughout
 from pyspark import SparkContext, SparkConf
 from pyspark.mllib.regression import LabeledPoint
